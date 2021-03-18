@@ -88,6 +88,9 @@ $$
 \end{enumerate}
 
 \section{Выполнение}
+\subsection{Ссылка на github}
+\verb!  https://github.com/quangloc99/software-testing-lab2!
+
 \subsection{UML диаграм}
   \includegraphics[width=\linewidth]{./lab2-uml.png}
 
