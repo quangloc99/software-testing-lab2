@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage[a4paper, margin=1in]{geometry}
+
+%Russian-specific packages
+%--------------------------------------
+\usepackage[tuenc]{fontspec}%for lualatex case
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{indentfirst}
+% \usepackage[english,russian]{babel} 
+\setsansfont{CMU Sans Serif}%{Arial}
+\setmainfont{CMU Serif}%{Times New Roman}
+\setmonofont{CMU Typewriter Text}%{Consolas}
+
+\usepackage{tikz}
+\usepackage{minted}
+\usepackage{algoflowchart}      % <-- this is a local package, and I am the author
+\usepackage{graphicx}
+\usemintedstyle{borland}
+
+\renewcommand{\familydefault}{\rmdefault}
+\def\requiredField#1{\textcolor{red}{#1}}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+«Национальный исследовательский университет ИТМО»
+    \end{center}
+
+    \vfill
+    \begin{center}
+        
+        \textbf{\huge
+            Лабораторная работа №2 по дисциплину
+            "Тестирование ПО"
+        } \\
+        \medskip
+
+    \end{center}
+
+    \vfill
+
+    \begin{flushright}
+        Выполнил: Чан Куанг Лок\\
+        Группа: P33011
+    \end{flushright}
+
+    \begin{center}
+        Санкт-Петербург\\ 2021 г
+    \end{center}
+\end{titlepage}
+
+\section{Описание задания}
+№ варианта: 661
+
+Провести интеграционное тестирование программы, осуществляющей вычисление системы функций (в соответствии с вариантом).
+
+\begin{itemize}
+
+    \item $x \le 0$
+        $$(((((csc(x) ^ 2) - sec(x)) ^ 3) * ((csc(x) - (sin(x) ^ 3)) / (sin(x) * cot(x)))) + (((cos(x) + tan(x)) + sin(x)) ^ 2))
+$$
+
+\item $x > 0$
+    
+    $$ (((((ln(x) ^ 3) + log_2(x)) - log_2(x)) + log_2(x)) ^ 2) $$
+    
+\end{itemize}
+
+\subsection{Правила выполнения работы}
+
+\begin{enumerate}
+    \item Все составляющие систему функции (как тригонометрические, так и логарифмические) должны быть выражены через базовые (тригонометрическая зависит от варианта; логарифмическая - натуральный логарифм).
+    \item Структура приложения, тестируемого в рамках лабораторной работы, должна выглядеть следующим образом (пример приведён для базовой тригонометрической функции sin(x)):
+    
+    \item Обе "базовые" функции (в примере выше - sin(x) и ln(x)) должны быть реализованы при помощи разложения в ряд с задаваемой погрешностью. Использовать тригонометрические / логарифмические преобразования для упрощения функций ЗАПРЕЩЕНО.
+    \item Для КАЖДОГО модуля должны быть реализованы табличные заглушки. При этом, необходимо найти область допустимых значений функций, и, при необходимости, определить взаимозависимые точки в модулях.
+    \item Разработанное приложение должно позволять выводить значения, выдаваемое любым модулем системы, в сsv файл вида «X, Результаты модуля (X)», позволяющее произвольно менять шаг наращивания Х. Разделитель в файле csv можно использовать произвольный.
+
+\end{enumerate}
+
+\subsection{Порядок выполнения работы}
+
+\begin{enumerate}
+    \item Разработать приложение, руководствуясь приведёнными выше правилами.
+    \item С помощью JUNIT4 разработать тестовое покрытие системы функций, проведя анализ эквивалентности и учитывая особенности системы функций. Для анализа особенностей системы функций и составляющих ее частей можно использовать сайт https://www.wolframalpha.com/.
+    \item Собрать приложение, состоящее из заглушек. Провести интеграцию приложения по 1 модулю, с обоснованием стратегии интеграции, проведением интеграционных тестов и контролем тестового покрытия системы функций.
+\end{enumerate}
+
+\section{Выполнение}
+\subsection{UML диаграм}
+  \includegraphics[width=\linewidth]{./lab2-uml.png}
+
+\subsection{Описание тестивого покрытия}
+Для всех функции, я выбрал 2 интервалы значенией:
+
+\begin{itemize}
+    \item От -10 до 10 с шагом 0.25.
+    \item От -100 до 100 с шагом 5.
+\end{itemize}
+
+Нет никакой конкретной причины, я просто думаю, что этих интервалов достаточно, и на самом деле в этих диапазонах есть много значений для тестирования.
+  
+
+\subsection{Графики}
+\subsubsection{sin и cos}
+  \includegraphics[width=10cm]{./sin-cos.png}
+\subsubsection{sec, csc, tan и cot}
+  \includegraphics[width=10cm]{./sec-csc-tan-cot.png}
+\subsubsection{ln и log2}
+  \includegraphics[width=10cm]{./log.png}
+\subsubsection{Системая фукция}
+  \includegraphics[width=10cm]{./func.png}
+
+\section{Вывод}
+Код для лабораторной работы прост, но количество тестов может очень быстро расти, если мы будем использовать одинаковое количество тестов для каждого модуля. И исправление «тестов», а также заглушек также занимает очень много времени, и в этой лабораторной работе мне нужно исправить тест из соображений точности. В целом лабораторная работа проста, и я получил базовое понимание того, как выполнять интеграционные тесты сверху вниз.
+
+
+\end{document}
+
+% listing code with:
+%    \inputminted[fontsize=\footnotesize]{lang}{realtive-or-absolute-dir}  
+
+% insert image
+%    \includegraphics[width=3cm, height=4cm]{img_path}
+% vim: wrap
+
